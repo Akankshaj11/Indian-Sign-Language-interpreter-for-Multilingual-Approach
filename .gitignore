@@ -1,0 +1,20 @@
+# Ignore dataset folders (too large)
+dataset/
+
+# Ignore saved model weights
+models/
+
+# Python cache folders
+__pycache__/
+
+# Numpy binary data
+*.npy
+
+# Image & video files (optional)
+*.jpg
+*.png
+*.mp4
+*.avi
+
+# VS Code workspace files
+.vscode/
