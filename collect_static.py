@@ -1,7 +1,7 @@
 import cv2
 import os
 
-LETTER = "B"   # change A → Z whenever recording a new letter
+LETTER = "Z"   # change A → Z whenever recording a new letter
 
 SAVE_DIR = f"dataset/static/{LETTER}"
 os.makedirs(SAVE_DIR, exist_ok=True)
