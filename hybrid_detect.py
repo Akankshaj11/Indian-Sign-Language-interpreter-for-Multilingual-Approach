@@ -9,14 +9,15 @@ dynamic_model = load_model("gesture_lstm.h5")
 static_model = load_model("static_letters.h5")
 
 DYNAMIC_LABELS = ['bye', 'hello', 'namaste', 'thank_you', 'yes']
-STATIC_LABELS = sorted(list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+with open("static_gestures.txt", "r", encoding="utf-8") as label_file:
+    STATIC_LABELS = [line.strip() for line in label_file if line.strip()]
 
 mode = "dynamic"
 sequence = []
 
 mp_hands = mp.solutions.hands
 mp_draw = mp.solutions.drawing_utils
-hands = mp_hands.Hands(max_num_hands=1)
+hands = mp_hands.Hands(max_num_hands=2)
 
 cap = cv2.VideoCapture(0)
 
@@ -28,8 +29,11 @@ while True:
     results = hands.process(rgb)
 
     if results.multi_hand_landmarks:
+        for hand_landmarks in results.multi_hand_landmarks:
+            mp_draw.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+
+        # Keep model input shape unchanged by using one hand for prediction.
         hand = results.multi_hand_landmarks[0]
-        mp_draw.draw_landmarks(frame, hand, mp_hands.HAND_CONNECTIONS)
 
         if mode == "dynamic":
             data = []
